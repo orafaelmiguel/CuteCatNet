@@ -15,11 +15,31 @@ name = "cutecatnet_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
-tauri-build = { version = "2", features = [] }
+tauri-build = { version = "1.5", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = [] }
-tauri-plugin-opener = "2"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+tauri = { version = "1.6", features = ["shell-open"] }
+# Para comunicação de baixo nível com a rede (camada de enlace)
+pnet = "0.34.0"
+# Para lidar com interfaces de rede e endereçamento IP/sub-rede
+ipnetwork = "0.20.0"
+# O runtime assíncrono essencial para operações de I/O de rede não-bloqueantes
+tokio = { version = "1", features = ["full"] }
+# Para serializar (converter) nossas structs Rust em JSON para o frontend
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+# Para obter o fabricante a partir do endereço MAC usando um banco de dados OUI local
+mac_oui = "0.2.0"
+# Para facilitar a manipulação de erros
+thiserror = "1.0"
+# Para logs, muito útil para depuração
+log = "0.4"
+env_logger = "0.10"
+# Para descobrir o gateway padrão, útil para encontrar a interface de rede principal
+default-net = "0.10.0"
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
 
