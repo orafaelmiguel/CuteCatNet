@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "cutecatnet",
+  "productName": "CuteCatNet",
   "version": "0.1.0",
   "identifier": "com.x535711.cutecatnet",
   "build": {
@@ -13,8 +13,8 @@
     "windows": [
       {
         "title": "cutecatnet",
-        "width": 800,
-        "height": 600
+        "width": 1280,
+        "height": 720
       }
     ],
     "security": {

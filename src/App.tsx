@@ -14,6 +14,22 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const mergeDevices = (prev: Device[], next: Device[]) => {
+    const map = new Map(prev.map((d) => [d.mac_address, d] as const));
+    for (const d of next) {
+      const ex = map.get(d.mac_address);
+      if (!ex) {
+        map.set(d.mac_address, d);
+      } else {
+        const manufacturer = ex.manufacturer === "Unknown" && d.manufacturer !== "Unknown" ? d.manufacturer : ex.manufacturer;
+        const ip_address = ex.ip_address === d.ip_address ? ex.ip_address : d.ip_address;
+        const hostname = ex.hostname === "Unknown" && d.hostname !== "Unknown" ? d.hostname : ex.hostname;
+        map.set(d.mac_address, { ...ex, ip_address, manufacturer, hostname });
+      }
+    }
+    return Array.from(map.values()).sort((a, b) => a.ip_address.localeCompare(b.ip_address));
+  };
+
   const handleScan = async () => {
     setIsLoading(true);
     setError(null);
@@ -22,7 +38,20 @@ function App() {
       setDevices(result);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err));
-      setDevices([]); // Clear list on error
+      setDevices([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRepeatScan = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const result = await invoke<Device[]>("scan_network");
+      setDevices((prev) => mergeDevices(prev, result));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setIsLoading(false);
     }
@@ -33,7 +62,8 @@ function App() {
       return (
         <div className="space-y-2">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="grid grid-cols-3 gap-4 p-2">
+            <div key={i} className="grid grid-cols-4 gap-4 p-2">
+              <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-full" />
@@ -72,6 +102,7 @@ function App() {
             <TableHead>IP Address</TableHead>
             <TableHead>MAC Address</TableHead>
             <TableHead>Manufacturer</TableHead>
+            <TableHead>Hostname</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -80,6 +111,7 @@ function App() {
               <TableCell className="font-mono">{device.ip_address}</TableCell>
               <TableCell className="font-mono">{device.mac_address}</TableCell>
               <TableCell>{device.manufacturer}</TableCell>
+              <TableCell className="font-mono">{device.hostname}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -91,7 +123,6 @@ function App() {
     <div className="container mx-auto p-4 md:p-8 flex flex-col min-h-screen">
       <header className="flex justify-between items-center pb-4 border-b mb-6">
         <div className="flex items-center gap-3">
-          <img src="/logo.svg" alt="CuteCatNet Logo" className="h-8 w-8" />
           <h1 className="text-2xl font-bold tracking-tight">CuteCatNet</h1>
         </div>
         <ThemeToggle />
@@ -103,24 +134,32 @@ function App() {
             <div className="space-y-1.5">
               <CardTitle>Devices on Network</CardTitle>
             </div>
-            <Button onClick={handleScan} disabled={isLoading}>
-              {isLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <ScanLine className="mr-2 h-4 w-4" />
+            <div className="flex items-center gap-2">
+              <Button onClick={handleScan} disabled={isLoading}>
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <ScanLine className="mr-2 h-4 w-4" />
+                )}
+                {isLoading ? "Scanning..." : "Scan Network"}
+              </Button>
+              {devices.length > 0 && (
+                <Button onClick={handleRepeatScan} disabled={isLoading} variant="secondary">
+                  {isLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <ScanLine className="mr-2 h-4 w-4" />
+                  )}
+                  {isLoading ? "Scanning..." : "Repeat Scan"}
+                </Button>
               )}
-              {isLoading ? "Scanning..." : "Scan Network"}
-            </Button>
+            </div>
           </CardHeader>
           <CardContent>
             {renderContent()}
           </CardContent>
         </Card>
       </main>
-
-      <footer className="text-center text-sm text-muted-foreground pt-6">
-        Made with 🐾 and Rust.
-      </footer>
     </div>
   );
 }

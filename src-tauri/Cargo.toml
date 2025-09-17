@@ -29,8 +29,6 @@ tokio = { version = "1", features = ["full"] }
 # Para serializar (converter) nossas structs Rust em JSON para o frontend
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-# Para obter o fabricante a partir do endereço MAC usando um banco de dados OUI local
-mac_oui = "0.2.0"
 # Para facilitar a manipulação de erros
 thiserror = "1.0"
 # Para logs, muito útil para depuração
@@ -38,6 +36,7 @@ log = "0.4"
 env_logger = "0.10"
 # Para descobrir o gateway padrão, útil para encontrar a interface de rede principal
 default-net = "0.10.0"
+dns-lookup = "1.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

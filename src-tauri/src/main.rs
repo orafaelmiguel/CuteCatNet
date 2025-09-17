@@ -5,6 +5,7 @@
 )]
 
 mod scanner;
+mod oui_db;
 
 #[tauri::command]
 async fn scan_network() -> Result<Vec<scanner::Device>, String> {
