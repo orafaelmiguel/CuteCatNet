@@ -15,6 +15,7 @@ fn main() {
     env_logger::init();
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![scan_network])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
