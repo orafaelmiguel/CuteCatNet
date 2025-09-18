@@ -1,4 +1,4 @@
-import { ScanLine, Network, ShieldCheck } from "lucide-react"
+import { ScanLine, Network, ShieldCheck, Cat } from "lucide-react"
 
 import {
   Sidebar,
@@ -41,7 +41,8 @@ export function AppSidebar({ activeView, onViewChange }: AppSidebarProps) {
     <Sidebar>
       <SidebarHeader className="border-b px-6 py-4">
         <div className="flex items-center gap-2">
-          <h1 className="text-lg font-semibold tracking-tight">CuteCatNet</h1>
+          <Cat className="h-7 w-6 text-primary" />
+          <h1 className="text-lg tracking-tight">Meowtwork Tool</h1>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -66,7 +67,7 @@ export function AppSidebar({ activeView, onViewChange }: AppSidebarProps) {
       </SidebarContent>
       <SidebarFooter className="border-t p-4">
         <div className="text-xs text-muted-foreground">
-          Exploring networks in a cute way
+          meow meow meow
         </div>
       </SidebarFooter>
     </Sidebar>
