@@ -3,6 +3,16 @@
 
 A open-source network discovery tool built with Rust. Performs ARP-based network scanning to discover devices on local networks with manufacturer identification and hostname resolution.
 
+## Windows prerequisite (Npcap)
+
+On Windows, CuteCatNet uses low-level packet capture APIs provided by Npcap. If you see an error like "Packet.dll not found" when launching the app, install Npcap:
+
+1. Download Npcap from `https://nmap.org/npcap/`
+2. During setup, check: "Install Npcap in WinPcap API-compatible Mode"
+3. Finish installation and launch CuteCatNet again
+
+Note: Redistribution of Packet.dll requires an OEM license. For end users, installing Npcap locally is the recommended path.
+
 ## Network Implementation
 
 CuteCatNet uses low-level networking techniques to discover devices on the local network without requiring elevated privileges on most systems.
