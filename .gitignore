@@ -27,3 +27,11 @@ dist-ssr
 .cursor
 claude.md
 CLAUDE.md
+./claude
+CLAUDE.md
+CLAUDE.md
+
+./claude/
+/claude
+.claude/settings.local.json
+CLAUDE.md

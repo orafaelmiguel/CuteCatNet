@@ -140,7 +140,7 @@ const handleScan = async () => {
 ## Common Tauri Commands
 
 - `scan_network()` - Performs ARP scan and returns list of discovered devices
-
+a
 ## Theming
 
 Colors are controlled via CSS variables in `src/index.css`. The application supports light and dark themes with the `.dark` class applied to the root element. Use Tailwind's color utilities that map to these CSS variables (e.g., `bg-background`, `text-primary`, `border-border`).
