@@ -22,7 +22,7 @@ impl OuiDb {
 
 	pub fn lookup(&self, mac: &str) -> Option<&str> {
 		let mac = mac.to_lowercase();
-		// try MA-L (first 3 bytes): 00:11:22
+		// MA-L (first 3 bytes): 00:11:22
 		let pref3 = mac.get(0..8);
 		if let Some(p) = pref3.and_then(|p| self.by_prefix.get(p)) {
 			return Some(p.as_str());
