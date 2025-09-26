@@ -6,4 +6,7 @@ export interface Device {
   hostname: string;
 }
 
+// Re-export stresser types
+export * from './stresser';
+
 

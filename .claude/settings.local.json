@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx shadcn-ui:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(cargo check:*)",
+      "Bash(cargo:*)",
+      "Bash(npm run tauri:*)",
+      "Bash(npm update:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
